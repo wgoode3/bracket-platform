@@ -79,4 +79,9 @@ def bracket():
     print db.saveBracket(request.data, session["user_id"])
     return jsonify({"status": 200})
 
-app.run(debug=True)
+@app.route("/user/<_id>")
+def user(_id):
+    user = db.getUser(_id)[0]
+    return jsonify({"status": 200, "data": user['bracket']})
+
+app.run(debug=True, host="0.0.0.0")

@@ -19,3 +19,8 @@
 .button.is-outlined:hover {
     background-color: hsl(171, 100%, 41%) !important;
 }
+
+.modal-content {
+	height: 1000px !important;
+	width: 1160px;
+}

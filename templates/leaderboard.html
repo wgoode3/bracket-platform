@@ -5,6 +5,7 @@
     <link rel="stylesheet" type="text/css" href="/static/node_modules/bulma/css/bulma.css">
     <link rel="stylesheet" type="text/css" href="/static/css/leaderboard.css">
     <link rel="stylesheet" type="text/css" href="/static/css/style.css">
+    <link rel="stylesheet" type="text/css" href="/static/css/bracket.css">
     <script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
     <link rel="icon" type="img/ico" href="/static/img/logo/logo.png">
 </head>
@@ -65,7 +66,7 @@
             <th>Rank</th>
             <th>Username</th>
             <th>Score</th>
-            <th>Predicted Champ</th>
+            <th>Show Bracket</th>
         </tr>
         {% for user in users %}
             <tr>
@@ -74,7 +75,7 @@
                 <td>{{ user.score }}</td>
                 <td>
                     {% if user.bracket %}
-                        {{ user.bracket.0.winner.name }}
+                        <button class="button is-primary is-small" data-open="{{ user._id }}">show</button>
                     {% else %}
                         Bracket Incomplete
                     {% endif %}
@@ -83,10 +84,208 @@
         {% endfor %}
     </table>
 
+    <!-- display the bracket in a modal -->
+    <div class="modal" id="modal">
+        <div class="modal-background"></div>
+        <div class="modal-content">
+            <div id="bracket">content!</div>
+        </div>
+        <button class="modal-close is-large" aria-label="close" id="close"></button>
+    </div>
+
+
 </div>
+
+<!-- load all the teams -->
+<script type="text/javascript" src="/static/js/teams.js"></script>
 
 <!-- attach listeners to messages -->
 <script type="text/javascript" src="/static/js/leaderboard.js"></script>
+
+<!-- load the bracket for each user -->
+<script type="text/javascript">
+    
+function Game(){
+    this.team1 = null;
+    this.team2 = null;
+    this.next = null;
+    this.winner = null;
+}
+
+function Bracket(){
+    this.champ = new Game();
+}
+
+Bracket.prototype.genTournament = function(){
+    let i = 0;
+    let num = 0;
+    function tournamentHelper(game, round){
+        if(round == 6){
+            game.team1 = teams[i++];
+            game.team2 = teams[i++];
+            game.num = num++;
+            game.round = round;
+            return;
+        }
+        game.num = num++;
+        game.round = round;
+        game.team1 = new Game();
+        game.team1.next = game;
+        game.team2 = new Game();
+        game.team2.next = game;
+        tournamentHelper(game.team1, round+1);
+        tournamentHelper(game.team2, round+1);
+    }
+    tournamentHelper(this.champ, 1);
+    return this;
+}
+
+Bracket.prototype.fillTournament = function(arr){
+    function setWinners(game, r){
+        let team_id = arr[game.num]["winner"]["id"];
+        game.winner = teams[team_id];
+        if(r < 6){
+            setWinners(game.team1, r+1);
+            setWinners(game.team2, r+1);
+        }
+    }
+    setWinners(this.champ, 1);
+}
+
+const rounds = [
+    "First Round",
+    "Second Round",
+    "Sweet Sixteen",
+    "Elite Eight",
+    "Final Four",
+    "Championship"
+];
+
+const regions = [
+    "East",
+    "West",
+    "Midwest",
+    "South"
+]
+
+Bracket.prototype.drawBracket = function(element){
+    let finals = [[], []];
+    let field = [[[],[],[],[]],[[],[],[],[]],[[],[],[],[]],[[],[],[],[]]];
+    let t = 0;
+    let n = 0;
+    function helper(game, r){
+        if(r == 0){
+            // console.log(game);
+            let t1 = game.team1;
+            let t2 = game.team2;
+            let thing = ""
+            // console.log(game.winner.id, t1.id, t2.id);
+            if(game.winner.id == t1.id){
+                thing = `<div class="game g${r}" data-game="${game.num}" data-round="${r}">
+                                <button class="team win" data-id="${t1.id}">${t1.seed} ${t1.name}</button>
+                                <button class="team loss" data-id="${t2.id}">${t2.seed} ${t2.name}</button>
+                            </div>`;
+            }else{
+                thing = `<div class="game g${r}" data-game="${game.num}" data-round="${r}">
+                                <button class="team loss" data-id="${t1.id}">${t1.seed} ${t1.name}</button>
+                                <button class="team win" data-id="${t2.id}">${t2.seed} ${t2.name}</button>
+                            </div>`;
+            }
+            field[n-1][r].push(thing);
+            t++;
+        }else{
+            let t1 = game.team1.winner;
+            let t2 = game.team2.winner;
+            let thing = "";
+            if(r > 3){
+                if(game.winner.id == t1.id){
+                    thing = `<span>${rounds[r]}</span>
+                            <div class="game g${r}" data-game="${game.num}" data-round="${r}">
+                                <button class="team win" data-id="${t1.id}">${t1.seed} ${t1.name}</button>
+                                <button class="team loss" data-id="${t2.id}">${t2.seed} ${t2.name}</button>
+                            </div>`;
+                }else{
+                    thing = `<span>${rounds[r]}</span>
+                            <div class="game g${r}" data-game="${game.num}" data-round="${r}">
+                                <button class="team loss" data-id="${t1.id}">${t1.seed} ${t1.name}</button>
+                                <button class="team win" data-id="${t2.id}">${t2.seed} ${t2.name}</button>
+                            </div>`;
+                }
+                finals[5-r].push(thing);
+            } else {
+                if(r == 3){
+                    n++;
+                    t = 0;
+                }
+                if(game.winner.id == t1.id){
+                    thing = `<div class="game g${r}" data-game="${game.num}" data-round="${r}">
+                                <button class="team win" data-id="${t1.id}">${t1.seed} ${t1.name}</button>
+                                <button class="team loss" data-id="${t2.id}">${t2.seed} ${t2.name}</button>
+                            </div>`;
+                }else{
+                    thing = `<div class="game g${r}" data-game="${game.num}" data-round="${r}">
+                                <button class="team loss" data-id="${t1.id}">${t1.seed} ${t1.name}</button>
+                                <button class="team win" data-id="${t2.id}">${t2.seed} ${t2.name}</button>
+                            </div>`;
+                }
+                field[n-1][r].push(thing);
+            }
+            
+            if(game.team1){
+                helper(game.team1, r-1);
+            }
+            if(game.team2){
+                helper(game.team2, r-1);
+            }
+        }
+    }
+    helper(this.champ, 5);
+    let content = "";
+    for(var i of [0,2,1,3]){
+        content += `<div id="${regions[i]}" class="region">`;
+        for(var j=0; j<4; j++){
+            if(i>1){
+                content += `<div class="col">${field[i][3-j].join("")}</div>`;
+            } else {
+                content += `<div class="col">${field[i][j].join("")}</div>`;
+            }
+        }
+        content += `</div>`;
+    }
+    let end = `<div id="final-four">`;
+    end += finals[0];
+    end += finals[1].join("");
+    end += `</div>`;
+    element.innerHTML = content + end;
+}
+
+// closes the modal
+const close = document.getElementById("close");
+close.addEventListener("click", function(e){
+    modal.classList.remove("is-active");
+});
+
+// renders a bracket in a modal
+const modal = document.getElementById("modal");
+const element = document.getElementById("bracket");
+const buttons = document.querySelectorAll("[data-open]");
+for(let button of buttons){
+    button.addEventListener("click", function(e){
+        fetch(`/user/${e.target.dataset.open}`)
+            .then(function(response) {
+            return response.json();
+        })
+        .then(function(res) {
+            var b = new Bracket();
+            b.genTournament();
+            b.fillTournament(res["data"]);
+            b.drawBracket(element);
+            modal.classList.add("is-active");
+        });
+    });
+}
+
+</script>
 
 </body>
 </html>

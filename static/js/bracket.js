@@ -56,6 +56,19 @@ Bracket.prototype.genTournament = function(){
     return this;
 }
 
+Bracket.prototype.fillTournament = function(arr){
+    function setWinners(game){
+        let team_id = arr[game.num]["winner"]["id"];
+        game.winner = teams[team_id];
+        if(game.team1.winner && game.team2.winner){
+            setWinners(game.team1);
+            setWinners(game.team2);
+        }
+    }
+    setWinners(this.champ);
+    console.log(b);
+} 
+
 Bracket.prototype.findGameByNum = function(gameNum){
     let the_game = null;
     function search(g){
