@@ -1,0 +1,49 @@
+.log-reg {
+	width: 640px;
+	margin: 0 auto;
+}
+
+.log-reg > .box {
+	height: 460px;
+}
+
+.log-reg > .hero {
+	height: 80px;
+}
+
+.title {
+	margin-top: -25px !important;
+}
+
+.hero {
+	border-top-left-radius: 5px;
+	border-top-right-radius: 5px; 
+}
+
+.box {
+	border-top-left-radius: 0px;
+	border-top-right-radius: 0px; 
+}
+
+.messages {
+	width: 600px;
+	position: absolute;
+	bottom: 10px;
+	left: 0;
+	right: 0;
+	margin: 0 auto;
+	text-align: center;
+}
+
+.notification {
+	padding: 5px;
+	margin: 5px !important;
+}
+
+.container {
+	min-height: 100vh;
+}
+
+.breadcrumb {
+	margin-bottom: 0px !important;
+}

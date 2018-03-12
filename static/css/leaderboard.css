@@ -1,0 +1,21 @@
+.messages {
+	margin-top: -20px;
+	text-align: center;
+}
+
+.notification {
+	padding: 5px;
+	margin: 5px !important;
+}
+
+.container {
+	min-height: 100vh;
+}
+
+.button.is-outlined {
+    background-color: #fff !important;
+}
+
+.button.is-outlined:hover {
+    background-color: hsl(171, 100%, 41%) !important;
+}

@@ -1,0 +1,31 @@
+{
+  "name": "bracket-platform",
+  "version": "1.0.0",
+  "description": "2018 NCAA Basketball Tournament Bracket",
+  "main": "none",
+  "scripts": {
+    "test": "none"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wgoode3/bracket-platform.git"
+  },
+  "keywords": [
+    "python",
+    "flask",
+    "mongo",
+    "bulma",
+    "tournament",
+    "bracket",
+    "basketball"
+  ],
+  "author": "Will Goode",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/wgoode3/bracket-platform/issues"
+  },
+  "homepage": "https://github.com/wgoode3/bracket-platform#readme",
+  "dependencies": {
+    "bulma": "^0.6.2"
+  }
+}

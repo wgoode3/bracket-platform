@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Dojo Bracket</title>
+	<link rel="stylesheet" type="text/css" href="/static/node_modules/bulma/css/bulma.css">
+	<link rel="stylesheet" type="text/css" href="/static/css/signUp.css">
+	<link rel="stylesheet" type="text/css" href="/static/css/style.css">
+	<script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
+</head>
+<body>
+
+<div class="container">
+
+	<section class="section log-reg">
+
+		<!-- box header -->
+		<div class="hero is-primary">
+			<div class="hero-body is-bold">
+				<h1 class="title">Welcome to Dojo Bracket</h1>
+			</div>
+		</div>
+
+		<!-- box body -->
+		<div class="box">
+			
+			<!-- form selection tabs -->
+			<div class="tabs is-boxed">
+				<ul>
+					<li id="log-tab" class="is-active">
+						<a>
+							<span class="icon is-small">
+								<i class="fas fa-sign-in-alt"></i>
+							</span>
+							<span>Sign in</span>
+						</a>
+					</li>
+					<li id="reg-tab">
+						<a>
+							<span class="icon is-small">
+								<i class="fas fa-user-plus"></i>
+							</span>
+							<span>Sign up</span>
+						</a>
+					</li>
+				</ul>
+			</div>
+
+			<!-- registration form -->
+			<form id="register" action="/register" method="post" style="display:none;">
+				<div class="field">
+					<label class="label">Username</label>
+					<div class="control has-icons-left">
+						<input class="input" type="text" name="username" placeholder="Username">
+						<span class="icon is-small is-left">
+							<i class="fas fa-user"></i>
+						</span>
+					</div>
+				</div>
+				<div class="field">
+					<label class="label">Email</label>
+					<div class="control has-icons-left">
+						<input class="input" type="text" name="email" placeholder="Email">
+						<span class="icon is-small is-left">
+							<i class="fas fa-envelope"></i>
+						</span>
+					</div>
+				</div>
+				<div class="field">
+					<label class="label">Password</label>
+					<div class="control has-icons-left">
+						<input class="input" type="password" name="password" placeholder="Password">
+						<span class="icon is-small is-left">
+							<i class="fas fa-lock"></i>
+						</span>
+					</div>
+				</div>
+				<div class="field">
+					<label class="label">Confirm Password</label>
+					<div class="control has-icons-left">
+						<input class="input" type="password" name="confirm" placeholder="Confirm Password">
+						<span class="icon is-small is-left">
+							<i class="fas fa-check"></i>
+						</span>
+					</div>
+				</div>
+				<input class="button is-primary" type="submit" value="Register">
+			</form>
+
+			<!-- login form -->
+			<form id="login" action="/login" method="post">
+				<div class="field">
+					<label class="label">Username</label>
+					<div class="control has-icons-left">
+						<input class="input" type="text" name="username" placeholder="Username">
+						<span class="icon is-small is-left">
+							<i class="fas fa-user"></i>
+						</span>
+					</div>
+				</div>
+				<div class="field">
+					<label class="label">Password</label>
+					<div class="control has-icons-left">
+						<input class="input" type="password" name="password" placeholder="Password">
+						<span class="icon is-small is-left">
+							<i class="fas fa-lock"></i>
+						</span>
+					</div>
+				</div>
+				<input class="button is-primary" type="submit" value="Sign In">
+			</form>
+
+		</div>
+	</section>
+
+	<!-- error messages just hanging out -->
+	{% with messages = get_flashed_messages() %}
+		{% if messages %}
+			<div class="messages">
+			{% for message in messages %}
+				<div class="notification is-danger">
+					<button class="delete" data-hide="hide"></button>
+					{{ message }}
+				</div>
+			{% endfor %}
+			</div>
+		{% endif %}
+	{% endwith %}
+
+</div>
+
+<script type="text/javascript" src="/static/js/signUp.js"></script>
+
+</body>
+</html>

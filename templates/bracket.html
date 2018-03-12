@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Dojo Bracket</title>
+	<link rel="stylesheet" type="text/css" href="/static/node_modules/bulma/css/bulma.css">
+	<link rel="stylesheet" type="text/css" href="/static/css/bracket.css">
+	<link rel="stylesheet" type="text/css" href="/static/css/style.css">
+	<script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
+</head>
+<body>
+	
+<div class="container">
+
+	<!-- box header -->
+	<div class="hero is-primary">
+		<div class="hero-body is-bold">
+			<h1 class="title">
+				Dojo Bracket
+			</h1>
+		</div>
+	</div>
+
+	<!-- breadbrumbs -->
+	<nav class="breadcrumb" aria-label="breadcrumbs">
+		<ul>
+			<li><a href="/sign_up">Sign in</a></li>
+			<li class="is-active"><a href="/bracket/new">Fill out your bracket</a></li>
+			<li><a href="/">View the leaderboard</a></li>
+		</ul>
+		<a href="/logout" class="button is-primary is-outlined">
+			<span class="icon is-small">
+				<i class="fas fa-sign-out-alt"></i>
+			</span>
+			<span>Sign out</span>
+		</a>
+	</nav>
+
+	<!-- tournament sport and year -->
+	<div class="center">
+		<h1 class="title">2018 NCAA Basketball tournament</h1>
+	</div>
+
+	<!-- a friendly message with instructions -->
+	<article class="message is-info">
+		<div class="message-header">
+			<span class="icon">
+				<i class="fas fa-basketball-ball"></i>
+			</span>
+			<strong>Info</strong>
+			<button class="delete" data-hide="hide"></button>
+		</div>
+		<div class="message-body">
+			<h2 class="subtitle is-5">To fill out your bracket, click on a team to select the game's winner. Numbers indicate the 'seed' or relative strength of the team, where lower numbers are stronger than higher numbers. With each successive round you receive more points for correct predictions.<br>Good luck!</h2>
+		</div>
+	</article>
+
+	<!-- the submit bracket modal -->
+	<div class="modal" id="modal">
+		<div class="modal-background"></div>
+			<div class="modal-content">
+				<article class="message is-primary">
+					<div class="message-header">
+						<span class="icon">
+							<i class="fas fa-basketball-ball"></i>
+						</span>
+						<strong>Ready to submit?</strong>
+						<button class="delete" data-close="close"></button>
+					</div>
+					<div class="message-body">
+						Let us know if you're done making changes! You won't be able to update your bracket once you have submitted!
+						<hr>
+						<button class="button is-danger" data-close="close">not done</button>
+						<button class="button is-success" data-submit="submit">done</button>
+					</div>
+				</article>
+			</div>
+		<button class="modal-close is-large" data-close="close" aria-label="close"></button>
+	</div>
+
+	<!-- opens the submit bracket modal -->
+	<button class="button is-primary" id="trigger">
+		<span class="icon">
+			<i class="fas fa-basketball-ball"></i>
+		</span>
+		<span>Submit</span>
+	</button>
+
+	<!-- commented out -->
+	{% if false %}
+	<article class="message is-info">
+		<div class="message-header">
+			<span class="icon">
+				<i class="fas fa-basketball-ball"></i>
+			</span>
+			<strong>Debug</strong>
+			<button class="delete" data-hide="hide"></button>
+		</div>
+		<div class="message-body">
+			{{ user }}
+		</div>
+	</article>
+	{% endif %}
+
+	<!-- renders the bracket -->
+	<div class="court">
+		<div id="bracket">content!</div>
+	</div>
+
+</div>
+
+<!-- load all the teams -->
+<script type="text/javascript" src="/static/js/teams.js"></script>
+
+<!-- generate the bracket -->
+<script type="text/javascript" src="/static/js/bracket.js"></script>
+
+</body>
+</html>
