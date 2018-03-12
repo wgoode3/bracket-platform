@@ -1,86 +1,86 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Dojo Bracket</title>
-	<link rel="stylesheet" type="text/css" href="/static/node_modules/bulma/css/bulma.css">
-	<link rel="stylesheet" type="text/css" href="/static/css/leaderboard.css">
-	<link rel="stylesheet" type="text/css" href="/static/css/style.css">
-	<script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
+    <title>Dojo Bracket</title>
+    <link rel="stylesheet" type="text/css" href="/static/node_modules/bulma/css/bulma.css">
+    <link rel="stylesheet" type="text/css" href="/static/css/leaderboard.css">
+    <link rel="stylesheet" type="text/css" href="/static/css/style.css">
+    <script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
 </head>
 <body>
 
 <div class="container">
 
-	<!-- box header -->
-	<div class="hero is-primary">
-		<div class="hero-body is-bold">
-			<h1 class="title">
-				Dojo Bracket Leaderboard
-			</h1>
-		</div>
-	</div>
+    <!-- box header -->
+    <div class="hero is-primary">
+        <div class="hero-body is-bold">
+            <h1 class="title">
+                Dojo Bracket Leaderboard
+            </h1>
+        </div>
+    </div>
 
-	<!-- breadbrumbs -->
-	<nav class="breadcrumb" aria-label="breadcrumbs">
-		<ul>
-			<li><a href="/sign_up">Sign in</a></li>
-			<li><a href="/bracket/new">Fill out your bracket</a></li>
-			<li class="is-active"><a href="/">View the leaderboard</a></li>
-		</ul>
-		{% if session.user_id %}
-			<a href="/logout" class="button is-primary is-outlined">
-				<span class="icon is-small">
-					<i class="fas fa-sign-out-alt"></i>
-				</span>
-				<span>Sign out</span>
-			</a>
-		{% else %}
-			<a href="/sign_up" class="button is-primary is-outlined">
-				<span class="icon is-small">
-					<i class="fas fa-sign-in-alt"></i>
-				</span>
-				<span>Sign in</span>
-			</a>
-		{% endif %}
-	</nav>
+    <!-- breadbrumbs -->
+    <nav class="breadcrumb" aria-label="breadcrumbs">
+        <ul>
+            <li><a href="/sign_up">Sign in</a></li>
+            <li><a href="/bracket/new">Fill out your bracket</a></li>
+            <li class="is-active"><a href="/">View the leaderboard</a></li>
+        </ul>
+        {% if session.user_id %}
+            <a href="/logout" class="button is-primary is-outlined">
+                <span class="icon is-small">
+                    <i class="fas fa-sign-out-alt"></i>
+                </span>
+                <span>Sign out</span>
+            </a>
+        {% else %}
+            <a href="/sign_up" class="button is-primary is-outlined">
+                <span class="icon is-small">
+                    <i class="fas fa-sign-in-alt"></i>
+                </span>
+                <span>Sign in</span>
+            </a>
+        {% endif %}
+    </nav>
 
-	<!-- error messages just hanging out -->
-	{% with messages = get_flashed_messages() %}
-		{% if messages %}
-			<div class="messages">
-			{% for message in messages %}
-				<div class="notification is-info">
-					<button class="delete" data-hide="hide"></button>
-					{{ message | safe}}
-				</div>
-			{% endfor %}
-			</div>
-		{% endif %}
-	{% endwith %}
+    <!-- error messages just hanging out -->
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <div class="messages">
+            {% for message in messages %}
+                <div class="notification is-info">
+                    <button class="delete" data-hide="hide"></button>
+                    {{ message | safe}}
+                </div>
+            {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
 
-	<!-- leaderboard table, mostly placeholder -->
-	<table class="table is-fullwidth is-striped">
-		<tr>
-			<th>Rank</th>
-			<th>Username</th>
-			<th>Score</th>
-			<th>Predicted Champ</th>
-		</tr>
-		{% for user in users %}
-			<tr>
-				<td>{{ loop.index }}</td>
-				<td>{{ user.username }}</td>
-				<td>{{ user.score }}</td>
-				<td>
-					{% if user.bracket %}
-						{{ user.bracket.0.winner.name }}
-					{% else %}
-						Bracket Incomplete
-					{% endif %}
-				</td>
-			</tr>
-		{% endfor %}
-	</table>
+    <!-- leaderboard table, mostly placeholder -->
+    <table class="table is-fullwidth is-striped">
+        <tr>
+            <th>Rank</th>
+            <th>Username</th>
+            <th>Score</th>
+            <th>Predicted Champ</th>
+        </tr>
+        {% for user in users %}
+            <tr>
+                <td>{{ loop.index }}</td>
+                <td>{{ user.username }}</td>
+                <td>{{ user.score }}</td>
+                <td>
+                    {% if user.bracket %}
+                        {{ user.bracket.0.winner.name }}
+                    {% else %}
+                        Bracket Incomplete
+                    {% endif %}
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
 
 </div>
 
