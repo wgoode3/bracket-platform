@@ -6,7 +6,7 @@ import json
 
 EMAIL_REGEX = re.compile(r'^[a-zA-Z0-9.+_-]+@[a-zA-Z0-9._-]+\.[a-zA-Z]+$')
 
-class db_connection(object):
+class Db_connection(object):
     def __init__(self, app):
         self.mongo = PyMongo(app)
 

@@ -1,10 +1,10 @@
 from flask import Flask, render_template as render, redirect, request, session, flash, jsonify
-from models import db_connection
+from db_connection import Db_connection
 
 app            = Flask(__name__)
 app.secret_key = "wqeelkmdsnbnuizapajvdpoji"
 app.name       = "bracket"
-db             = db_connection(app)
+db             = Db_connection(app)
 
 @app.route("/")
 def leaderboard():

@@ -1,0 +1,1 @@
+Crudely drawn (traced) image by me. Made in Gimp.
