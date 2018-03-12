@@ -51,7 +51,7 @@ def logout():
 @app.route("/admin")
 def admin():
     if "user_id" not in session:
-        flash("You need to <a href='/sign_up'>sign in</a> as an admin to be here")
+        flash("You need to <a href='/sign_up'>sign in</a> to go there")
         return redirect("/")
     else:
         user = db.getUser(session["user_id"])[0]
@@ -64,7 +64,7 @@ def admin():
 @app.route("/bracket/new")
 def new_bracket():
     if "user_id" not in session:
-        flash("Welcome friend, please <a href='/sign_up'>sign in</a> to fill out a bracket")
+        flash("Welcome friend, please <a href='/sign_up'>sign in</a> before you fill out a bracket")
         return redirect("/")
     else:
         user = db.getUser(session["user_id"])[0]

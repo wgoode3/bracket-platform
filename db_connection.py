@@ -87,7 +87,7 @@ class Db_connection(object):
         )
 
     def getUsers(self):
-        return self.mongo.db.users.find({})
+        return self.mongo.db.users.find({"admin": False})
 
     def saveBracket(self, data, _id):
         return self.mongo.db.users.update(
