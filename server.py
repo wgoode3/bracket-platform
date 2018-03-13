@@ -8,7 +8,11 @@ db             = Db_connection(app)
 
 @app.route("/")
 def leaderboard():
-    return render("leaderboard.html", users=db.getUsers())
+    if "user_id" in session:
+        user = db.getUser(session["user_id"])[0]
+    else:
+        user = None
+    return render("leaderboard.html", users=db.getUsers(), user=user)
 
 @app.route("/sign_up")
 def signUp():
@@ -31,7 +35,7 @@ def login():
     if isinstance(u, list):
         for error in u:
             flash(error)
-        return redirect("/sign_up")
+        return redirect("/sign_in")
     else:
         session["user_id"] = str(u[0]["_id"])
         user = db.getUser(session["user_id"])[0]
@@ -41,6 +45,10 @@ def login():
             return redirect("/")
         else:
             return redirect("/bracket/new")
+
+@app.route("/sign_in")
+def signIn():
+    return render("signIn.html")
 
 @app.route("/logout")
 def logout():

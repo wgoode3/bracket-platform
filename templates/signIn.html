@@ -27,7 +27,7 @@
             <!-- form selection tabs -->
             <div class="tabs is-boxed">
                 <ul>
-                    <li class="is-active">
+                    <li>
                         <a href="/sign_up">
                             <span class="icon is-small">
                                 <i class="fas fa-user-plus"></i>
@@ -35,7 +35,7 @@
                             <span>Sign up</span>
                         </a>
                     </li>
-                    <li>
+                    <li class="is-active">
                         <a href="/sign_in">
                             <span class="icon is-small">
                                 <i class="fas fa-sign-in-alt"></i>
@@ -46,23 +46,14 @@
                 </ul>
             </div>
 
-            <!-- registration form -->
-            <form action="/register" method="post">
+            <!-- login form -->
+            <form action="/login" method="post">
                 <div class="field">
                     <label class="label">Username</label>
                     <div class="control has-icons-left">
                         <input class="input" type="text" name="username" placeholder="Username">
                         <span class="icon is-small is-left">
                             <i class="fas fa-user"></i>
-                        </span>
-                    </div>
-                </div>
-                <div class="field">
-                    <label class="label">Email</label>
-                    <div class="control has-icons-left">
-                        <input class="input" type="text" name="email" placeholder="Email">
-                        <span class="icon is-small is-left">
-                            <i class="fas fa-envelope"></i>
                         </span>
                     </div>
                 </div>
@@ -75,16 +66,7 @@
                         </span>
                     </div>
                 </div>
-                <div class="field">
-                    <label class="label">Confirm Password</label>
-                    <div class="control has-icons-left">
-                        <input class="input" type="password" name="confirm" placeholder="Confirm Password">
-                        <span class="icon is-small is-left">
-                            <i class="fas fa-check"></i>
-                        </span>
-                    </div>
-                </div>
-                <input class="button is-primary" type="submit" value="Register">
+                <input class="button is-primary" type="submit" value="Sign In">
             </form>
 
         </div>

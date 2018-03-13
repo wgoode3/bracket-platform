@@ -148,8 +148,9 @@ hr {
 }
 
 .container {
+    /*overflow-x: scroll;*/
+    overflow: auto;
     overflow-y: hidden;
-    overflow-x: scroll;
 }
 
 .court {
@@ -164,4 +165,17 @@ hr {
 
 .button.is-outlined:hover {
     background-color: hsl(171, 100%, 41%) !important;
+}
+
+.text {
+    color: #4A4A4A;
+    text-decoration: underline;
+}
+
+.footer {
+    padding: 10px;
+}
+
+.footer span {
+    margin: 5px !important;
 }

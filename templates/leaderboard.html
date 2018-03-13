@@ -3,15 +3,15 @@
 <head>
     <title>Dojo Bracket</title>
     <link rel="stylesheet" type="text/css" href="/static/node_modules/bulma/css/bulma.css">
-    <link rel="stylesheet" type="text/css" href="/static/css/leaderboard.css">
     <link rel="stylesheet" type="text/css" href="/static/css/style.css">
     <link rel="stylesheet" type="text/css" href="/static/css/bracket.css">
+    <link rel="stylesheet" type="text/css" href="/static/css/leaderboard.css">
     <script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
     <link rel="icon" type="img/ico" href="/static/img/logo/logo.png">
 </head>
 <body>
 
-<div class="container">
+<div class="container main">
 
     <!-- box header -->
     <div class="hero is-primary">
@@ -29,7 +29,20 @@
             <li><a href="/bracket/new">Fill out your bracket</a></li>
             <li class="is-active"><a href="/">View the leaderboard</a></li>
         </ul>
-        {% if session.user_id %}
+        {% if user.admin %}
+            <a href="/admin" class="button is-link is-outlined">
+                <span class="icon is-small">
+                    <i class="fas fa-power-off"></i>
+                </span>
+                <span>Admin</span>
+            </a>
+            <a href="/logout" class="button is-primary is-outlined">
+                <span class="icon is-small">
+                    <i class="fas fa-sign-out-alt"></i>
+                </span>
+                <span>Sign out</span>
+            </a>
+        {% elif user %}
             <a href="/logout" class="button is-primary is-outlined">
                 <span class="icon is-small">
                     <i class="fas fa-sign-out-alt"></i>
@@ -87,14 +100,30 @@
     <!-- display the bracket in a modal -->
     <div class="modal" id="modal">
         <div class="modal-background"></div>
-        <div class="modal-content">
-            <div id="bracket">content!</div>
+        <div class="modal-content" style="width: 1200px;">
+            <div id="bracket" style="overflow:hidden; margin: 0px !important;">content!</div>
         </div>
         <button class="modal-close is-large" aria-label="close" id="close"></button>
     </div>
 
 
+
+
 </div>
+
+<footer class="footer">
+    <div class="container">
+        <div class="content has-text-centered">
+            <p class="subtitle">
+                <span class="icon is-medium">
+                    <i class="fas fa-basketball-ball"></i>
+                </span>
+                <span>Dojo Bracket 2018</span>
+                <a href="https://github.com/wgoode3/bracket-platform" class="text"><span class="icon is-medium"><i class="fab fa-github"></i></span><span>Fork me on GitHub</span></a>
+            </p>
+        </div>
+    </div>
+</footer>
 
 <!-- load all the teams -->
 <script type="text/javascript" src="/static/js/teams.js"></script>

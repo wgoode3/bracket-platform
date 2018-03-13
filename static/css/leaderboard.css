@@ -8,19 +8,40 @@
     margin: 5px !important;
 }
 
-.container {
-    min-height: 100vh;
-}
-
 .button.is-outlined {
     background-color: #fff !important;
 }
 
-.button.is-outlined:hover {
+.is-primary.is-outlined:hover {
     background-color: hsl(171, 100%, 41%) !important;
+}
+
+.is-link.is-outlined:hover {
+    background-color: hsl(217, 71%, 53%) !important;
 }
 
 .modal-content {
 	height: 1000px !important;
 	width: 1160px;
+}
+
+.container {
+	overflow: auto;
+}
+
+.text {
+	color: #4A4A4A;
+	text-decoration: underline;
+}
+
+.main {
+	min-height: calc(100vh - 72px) !important;
+}
+
+.footer {
+    padding: 10px;
+}
+
+.footer span {
+    margin: 5px !important;
 }
