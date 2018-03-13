@@ -1,5 +1,6 @@
 from flask import Flask, render_template as render, redirect, request, session, flash, jsonify
 from db_connection import Db_connection
+from datetime import datetime
 
 app            = Flask(__name__)
 app.secret_key = "wqeelkmdsnbnuizapajvdpoji"
@@ -94,6 +95,11 @@ def calculate():
 
 @app.route("/bracket/new")
 def new_bracket():
+    # check if the games have already started
+    if datetime.now() > datetime.strptime("2018-03-15 12:15", "%Y-%m-%d %H:%M"):
+        flash("The tournament has begun, you cannot fill out a bracket now")
+        return redirect("/") 
+
     if "user_id" not in session:
         flash("Welcome friend, please <a href='/sign_up'>sign in</a> before you fill out a bracket")
         return redirect("/")
@@ -107,7 +113,11 @@ def new_bracket():
 
 @app.route("/bracket", methods=["POST"])
 def bracket():
-    print db.saveBracket(request.data, session["user_id"])
+    if datetime.now() > datetime.strptime("2018-03-15 12:15", "%Y-%m-%d %H:%M"):
+        flash("The tournament has begun, you cannot fill out a bracket now")
+        return jsonify({"status": 200})
+
+    db.saveBracket(request.data, session["user_id"])
     return jsonify({"status": 200})
 
 @app.route("/user/<_id>")

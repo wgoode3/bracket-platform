@@ -1,0 +1,20 @@
+.buttons {
+    margin: 25px;
+}
+
+.footer {
+    padding: 10px;
+}
+
+.footer span {
+    margin: 5px !important;
+}
+
+.notification {
+    padding: 5px;
+    text-align: center;
+}
+
+.message-spacing {
+    margin: 20px 0px;
+}
