@@ -87,10 +87,17 @@ class Db_connection(object):
         )
 
     def getUsers(self):
-        return self.mongo.db.users.find({"admin": False})
+        results = self.mongo.db.users.find({"admin": False})
+        return sorted([dict(r) for r in results], key=lambda user: -user["score"])
 
     def saveBracket(self, data, _id):
         return self.mongo.db.users.update(
             {"_id": bson.objectid.ObjectId(_id)}, 
             {"$set": json.loads(data)}
+        )
+
+    def updateScore(self, score, _id):
+        return self.mongo.db.users.update(
+            {"_id": bson.objectid.ObjectId(_id)}, 
+            {"$set": {"score": score}}
         )

@@ -18,6 +18,13 @@
         .footer span {
             margin: 5px !important;
         }
+        .notification {
+            padding: 5px;
+            text-align: center;
+        }
+        .message-spacing {
+            margin: 20px 0px;
+        }
     </style>
 </head>
 </head>
@@ -43,19 +50,44 @@
             </span>
             <span>Save Bracket</span>
         </button>
-        <button class="button is-warning">
+        <a href="/admin" class="button is-warning">
             <span class="icon is-small">
                 <i class="fas fa-undo"></i>
             </span>
             <span>Reset Bracket</span>
-        </button>
-        <button class="button is-danger">
-            <span class="icon is-small">
-                <i class="fas fa-cogs"></i>
-            </span>
-            <span>Calculate Scores</span>
-        </button>
+        </a>
+        <form action="/admin/calculate" method="post" style="display: inline;">
+            <input type="hidden" name="admin" value="{{user._id}}">
+            <button class="button is-danger" id="calc">
+                <span class="icon is-small">
+                    <i class="fas fa-cogs"></i>
+                </span>
+                <span>Calculate Scores</span>
+            </button>
+        </form>
     </div>
+
+    <!-- save success message here -->
+    <div class="message-spacing" data-message="success" style="display:none;">
+        <div class="notification is-primary">
+            <button class="delete" data-hide="hide"></button>
+            Your bracket has been saved.
+        </div>
+    </div>
+
+    <article class="message is-info">
+        <div class="message-header">
+            <span class="icon">
+                <i class="fas fa-basketball-ball"></i>
+            </span>
+            <strong>Debug</strong>
+            <button class="delete" data-hide="hide"></button>
+        </div>
+        <div class="message-body">
+            {{ user }}
+        </div>
+    </article>
+    
 
     <div class="court">
         <div id="bracket">content!</div>
@@ -71,7 +103,7 @@
                     <i class="fas fa-basketball-ball"></i>
                 </span>
                 <span>Dojo Bracket 2018</span>
-                <a href="https://github.com/wgoode3/bracket-platform" class="text"><span class="icon is-medium"><i class="fab fa-github"></i></span><span>Fork me on GitHub</span></a>
+                <a href="https://github.com/wgoode3/bracket-platform" target="_blank" class="text"><span class="icon is-medium"><i class="fab fa-github"></i></span><span>Fork me on GitHub</span></a>
             </p>
         </div>
     </div>
@@ -251,15 +283,26 @@ Bracket.prototype.drawBracket = function(element){
 Bracket.prototype.toList = function(){
     let arr = [];
     function traverse(game){
-        arr.push({
-            "num": game.num,
-            "round": game.round,
-            "winner": {
-                "id": game.winner.id,
-                "name": game.winner.name
-            }
-        });
-        if(game.team1.winner && game.team2.winner){
+        if(game.winner != null){
+            arr.push({
+                "num": game.num,
+                "round": game.round,
+                "winner": {
+                    "id": game.winner.id,
+                    "name": game.winner.name
+                }
+            });
+        }else{
+            arr.push({
+                "num": game.num,
+                "round": game.round,
+                "winner": {
+                    "id": -1,
+                    "name": "TBD"
+                }
+            })
+        }
+        if(game.team1.winner !== undefined && game.team2.winner !== undefined){
             traverse(game.team1);
             traverse(game.team2);
         }
@@ -276,8 +319,6 @@ function updateNode(game, w, l){
     // Check if the bracket has been finished
     if(game.next == null){
         console.log("champ has been picked!", teams[w]);
-        document.getElementById("trigger").style.display = "";
-        document.getElementById("modal").classList.add("is-active");
     }
     
     // update the next round
@@ -344,10 +385,13 @@ document.querySelectorAll("[data-id]").forEach((t) => {
     });
 });
 
+const success = document.querySelector("[data-message='success']");
+
 document.querySelector("[data-submit]").addEventListener("click", function(){
     postData('/bracket', {"bracket": b.toList()})
         .then(data => {
-            window.location = "/";
+            console.log(data);
+            success.style.display = "";
         })
         .catch(error => console.error(error))
     return;
@@ -361,12 +405,16 @@ for(let c of close){
     });
 }
 
-let hide = document.querySelectorAll("[data-hide]");
+const hide = document.querySelectorAll("[data-hide]");
 for(let h of hide){
     h.addEventListener("click", function(e){
         e.target.parentNode.parentNode.style.display = "none";
     });
 }
+
+document.getElementById("calc").addEventListener("click",function(){
+    calc.classList.add("is-loading");
+});
 
 </script>
 

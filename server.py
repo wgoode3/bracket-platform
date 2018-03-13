@@ -58,6 +58,7 @@ def logout():
 
 @app.route("/admin")
 def admin():
+
     if "user_id" not in session:
         flash("You need to <a href='/sign_up'>sign in</a> to go there")
         return redirect("/")
@@ -68,6 +69,28 @@ def admin():
             return redirect("/")
 
     return render("admin.html", user=user)
+
+@app.route("/admin/calculate", methods=["POST"])
+def calculate():
+    user = db.getUser(session["user_id"])[0]
+    if user["admin"]:
+        bracket = user["bracket"]
+        users = db.getUsers()
+        for u in users:
+            if u["bracket"] == None:
+                print("user {} has not filled out a bracket yet".format(u["username"]))
+            else:
+                # print(u)
+                print u["username"]
+                score = 0
+                for i in range(len(bracket)):
+                    if bracket[i] == u["bracket"][i]:
+                        # score based on what round the prediction is in
+                        score += 2**(6-bracket[i]["round"])
+                print score
+                db.updateScore(score, u["_id"])
+            # print(users)
+    return redirect("/admin")
 
 @app.route("/bracket/new")
 def new_bracket():
