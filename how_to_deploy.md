@@ -2,48 +2,54 @@
 
 ### Step 1: get a server
 
-Start an Ubuntu instance on AWS and SSH into the server
+Start an Ubuntu instance on AWS and SSH into the server.
+
+---
 
 ### Step 2: setup the server
 
-Update your server and install some needed files
+Update your server and install some needed files.
 
 ```
 ubuntu@xxx.xxx.xxx.xxx:~$ sudo apt-get update
 ubuntu@xxx.xxx.xxx.xxx:~$ sudo apt-get install python-pip python-dev nginx git mongodb npm
 ```
 
-Use pip to install ```virtualenv```
+Use pip to install ```virtualenv```.
 
 ```
 ubuntu@xxx.xxx.xxx.xxx:~$ sudo pip install virtualenv
 ```
 
+---
+
 ### Step 3: git the project 
 
-Use git to clone this project onto the server (do not run this with sudo)
+Use git to clone this project onto the server (do **not** run this with sudo).
 
 ```
 ubuntu@xxx.xxx.xxx.xxx:~$ git clone https://github.com/wgoode3/bracket-platform.git
 ```
 
-After it downloads ```cd``` into the repository and set up the virtual environment
+After it downloads, ```cd``` into the repository and set up the virtual environment.
 
 ```
 ubuntu@xxx.xxx.xxx.xxx:~$ cd bracket-platform
-ubuntu@xxx.xxx.xxx.xxx:~$ virtualenv venv
-ubuntu@xxx.xxx.xxx.xxx:~$ source venv/bin/activate
-ubuntu@xxx.xxx.xxx.xxx:~$ pip install -r requirements.txt
-ubuntu@xxx.xxx.xxx.xxx:~$ pip install gunicorn
+ubuntu@xxx.xxx.xxx.xxx:~/bracket-platform$ virtualenv venv
+ubuntu@xxx.xxx.xxx.xxx:~/bracket-platform$ source venv/bin/activate
+ubuntu@xxx.xxx.xxx.xxx:~/bracket-platform$ pip install -r requirements.txt
+ubuntu@xxx.xxx.xxx.xxx:~/bracket-platform$ pip install gunicorn
 ```
 
-Next we need to get the [bulma](https://bulma.io/) module from npm
+Next we need to get the [bulma](https://bulma.io/) module from npm.
 
 ```
-ubuntu@xxx.xxx.xxx.xxx:~$ cd static
-ubuntu@xxx.xxx.xxx.xxx:~$ npm install
-ubuntu@xxx.xxx.xxx.xxx:~$ cd ~
+ubuntu@xxx.xxx.xxx.xxx:~/bracket-platform$ cd static
+ubuntu@xxx.xxx.xxx.xxx:~/bracket-platform/static$ npm install
+ubuntu@xxx.xxx.xxx.xxx:~/bracket-platform/static$ cd ~
 ```
+
+---
 
 ### Step 4: Configure and set up ```gunicorn```
 
@@ -51,7 +57,7 @@ ubuntu@xxx.xxx.xxx.xxx:~$ cd ~
 ubuntu@xxx.xxx.xxx.xxx:~$ sudo nano /etc/systemd/system/gunicorn.service
 ```
 
-Copy in the following code and exit with ```ctrl + x``` then ```y``` then ```Enter```
+Copy in the following code and exit with ```ctrl + x``` then press ```y``` then press ```Enter```.
 
 ```
 [Unit]
@@ -66,7 +72,7 @@ ExecStart=/home/ubuntu/bracket-platform/venv/bin/gunicorn --workers 3 --bind uni
 WantedBy=multi-user.target
 ```
 
-Next run the following lines of code
+Next run the following lines of code.
 
 ```
 ubuntu@xxx.xxx.xxx.xxx:~$ sudo systemctl daemon-reload
@@ -74,14 +80,16 @@ ubuntu@xxx.xxx.xxx.xxx:~$ sudo systemctl start gunicorn
 ubuntu@xxx.xxx.xxx.xxx:~$ sudo systemctl enable gunicorn
 ```
 
-When you use ```ls``` you should see
+When you use ```ls``` you should see.
 
 ```
 ubuntu@xxx.xxx.xxx.xxx:~$ ls
 bracket-platform  bracket-platform.sock
 ```
 
-If you do not see the ```.sock``` file redo the previous steps until you do
+If you do not see the ```.sock``` file redo the previous steps until you do.
+
+---
 
 ### Step 5: Configure and set up ```nginx```
 
@@ -121,14 +129,14 @@ ubuntu@xxx.xxx.xxx.xxx:~$ sudo nginx -t
 ```
 If it doesn't say it's ```ok``` redo the previous steps.
 
-Next we'll remove some ```nginx``` defaults
+Next we'll remove some ```nginx``` defaults.
 
 ```
 ubuntu@xxx.xxx.xxx.xxx:~$ sudo rm /etc/nginx/sites-enabled/default
 ubuntu@xxx.xxx.xxx.xxx:~$ sudo rm /etc/nginx/sites-available/default
 ```
 
-After restarting ```nginx``` your deployment should be complete
+After restarting ```nginx``` your deployment should be complete.
 
 ```
 ubuntu@xxx.xxx.xxx.xxx:~$ sudo service nginx restart
