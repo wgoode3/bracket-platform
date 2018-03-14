@@ -78,19 +78,13 @@ def calculate():
         bracket = user["bracket"]
         users = db.getUsers()
         for u in users:
-            if u["bracket"] == None:
-                print("user {} has not filled out a bracket yet".format(u["username"]))
-            else:
-                # print(u)
-                print u["username"]
+            if u["bracket"] != None:
                 score = 0
                 for i in range(len(bracket)):
                     if bracket[i] == u["bracket"][i]:
                         # score based on what round the prediction is in
                         score += 2**(6-bracket[i]["round"])
-                print score
                 db.updateScore(score, u["_id"])
-            # print(users)
     return redirect("/admin")
 
 @app.route("/bracket/new")
@@ -125,4 +119,5 @@ def user(_id):
     user = db.getUser(_id)[0]
     return jsonify({"status": 200, "data": user['bracket']})
 
-app.run(debug=True, host="0.0.0.0")
+if __name__ == '__main__':
+    app.run(debug=False)
