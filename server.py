@@ -78,13 +78,19 @@ def calculate():
         bracket = user["bracket"]
         users = db.getUsers()
         for u in users:
-            if u["bracket"] != None:
+            if u["bracket"] == None:
+                print("user {} has not filled out a bracket yet".format(u["username"]))
+            else:
+                # print(u)
+                print u["username"]
                 score = 0
                 for i in range(len(bracket)):
                     if bracket[i] == u["bracket"][i]:
                         # score based on what round the prediction is in
                         score += 2**(6-bracket[i]["round"])
+                print score
                 db.updateScore(score, u["_id"])
+            # print(users)
     return redirect("/admin")
 
 @app.route("/bracket/new")
@@ -107,9 +113,15 @@ def new_bracket():
 
 @app.route("/bracket", methods=["POST"])
 def bracket():
-    if datetime.now() > datetime.strptime("2018-03-15 12:15", "%Y-%m-%d %H:%M"):
-        flash("The tournament has begun, you cannot fill out a bracket now")
-        return jsonify({"status": 200})
+
+    if "user_id" not in session:
+        flash("You need to <a href='/sign_up'>sign in</a> to go there")
+        return redirect("/")
+    else:
+        user = db.getUser(session["user_id"])[0]
+        if not user["admin"] and datetime.now() > datetime.strptime("2018-03-13 12:15", "%Y-%m-%d %H:%M"):
+            flash("The tournament has begun, you cannot fill out a bracket now")
+            return jsonify({"status": 200})
 
     db.saveBracket(request.data, session["user_id"])
     return jsonify({"status": 200})
@@ -119,5 +131,4 @@ def user(_id):
     user = db.getUser(_id)[0]
     return jsonify({"status": 200, "data": user['bracket']})
 
-if __name__ == '__main__':
-    app.run(debug=False)
+app.run(debug=True, host="0.0.0.0")
