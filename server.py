@@ -131,4 +131,5 @@ def user(_id):
     user = db.getUser(_id)[0]
     return jsonify({"status": 200, "data": user['bracket']})
 
-app.run(debug=True, host="0.0.0.0")
+if __name__ == "main":
+    app.run(debug=True, host="0.0.0.0")
